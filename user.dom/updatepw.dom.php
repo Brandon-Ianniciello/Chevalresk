@@ -28,7 +28,7 @@
         die();
     }
     
-    $user = new User();
+    $user = new Joueur();
     if(!$user->update_user_pw($_SESSION["userEmail"], $oldpw, $newpw, $pwval)){
         header("Location: ../error.php?ErrorMSG=Bad%20request");
         die();

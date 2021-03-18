@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . "/userTDG.php";
+include_once __DIR__ . "/JoueurTDG.php";
 
 class Joueur{
 
@@ -78,53 +78,57 @@ class Joueur{
         $this->mdpCrypte = $mdpCrypte;
     }
 
-    public function load_user($email)
+    public function load_user($id)
     {
-        $TDG = UserTDG::getInstance();
-        $res = $TDG->get_by_email($email);
+        $TDG = JoueurTDG::getInstance();
+        $joueur = $TDG->get_all_info_by_id($id);
 
-        if(!$res)
+        if(!$joueur)
         {
             $TDG = null;
             return false;
         }
 
-        $this->idJoueur = $res['idJoueur'];
-        $this->courriel = $res['courriel'];
-        $this->alias = $res['alias'];
-        $this->nom = $res['nom'];
-        $this->prénom = $res['prénom'];
-        $this->montantInitial = $res['montantInitial'];
-        $this->motDePasse = $res['motDePasse'];
-        $this->isAdmin = $res['isAdmin'];
+        $this->idJoueur = $joueur['idJoueur'];
+        $this->courriel = $joueur['courriel'];
+        $this->alias = $joueur['alias'];
+        $this->nom = $joueur['nom'];
+        $this->prénom = $joueur['prénom'];
+        $this->montantInitial = $joueur['montantInitial'];
+        $this->motDePasse = $joueur['motDePasse'];
+        $this->isAdmin = $joueur['isAdmin'];
+
+        var_dump($joueur);
 
         $TDG = null;
         return true;
     }
 
-
+    /* $TDG = JoueurTDG::getInstance();
+        $res = $TDG->get_id_by_email($email);
+        var_dump("Dans le get_id",$res);
+        $TDG = null;
+        return $res["idJoueur"]; */
     //Login Validation
     public function login($email, $pw){
+        $TDG = JoueurTDG::getInstance();
+        $id = $TDG->get_id_by_email($email);       
 
-        // Regarde si l'utilisateur existes deja
-        if(!$this->load_user($email))
+        if(!$this->load_user($id))
         {
             return false;
         }
-
-        // Regarde si le password est verifiable
         if(!password_verify($pw, $this->mdpCrypte))
         {
             return false;
         }
-
         return true;
     }
 
     //Register Validation
     public function validate_email_not_exists($email){
-        $TDG = UserTDG::getInstance();
-        $res = $TDG->get_by_email($email);
+        $TDG = JoueurTDG::getInstance();
+        $res = $TDG->get_by_email($email);//retourne seulement le email juste de meme lala
         $TDG = null;
         if($res)
         {
@@ -135,8 +139,8 @@ class Joueur{
     }
 
     public function validate_username_not_exists($username){
-        $TDG = UserTDG::getInstance();
-        $res = $TDG->get_by_email($username);
+        $TDG = JoueurTDG::getInstance();
+        $res = $TDG->get_by_email($username);//retourne seulement le email juste de meme lala
         $TDG = null;
         if($res)
         {
@@ -147,7 +151,6 @@ class Joueur{
     }
 
     public function register($alias,$prénom,$nom,$email, $pw, $vpw){
-        //montant initial ???
         $montantInitial = 500;
 
         //check is both password are equals
@@ -163,8 +166,7 @@ class Joueur{
         }
 
         //add user to DB
-        $TDG = UserTDG::getInstance();
-        //$alias, $nom,$prénom,$motDepasse, $courriel,$montantInitial,$isAdmin
+        $TDG = JoueurTDG::getInstance();
         $res = $TDG->add_user($alias,$nom,$prénom,$pw,$email,$montantInitial,$isAdmin=0);
         $TDG = null;
         return true;
@@ -190,7 +192,7 @@ class Joueur{
 
         $this->email = $newmail;
 
-        $TDG = UserTDG::getInstance();
+        $TDG = JoueurTDG::getInstance();
         $res = $TDG->update_info($this->email, $this->username, $this->id);
 
         if($res){
@@ -221,7 +223,7 @@ class Joueur{
 
         $this->username=$newUsername;
 
-        $TDG = UserTDG::getInstance();
+        $TDG = JoueurTDG::getInstance();
         $res = $TDG->update_info($this->email, $this->username, $this->id);
 
         if($res){
@@ -249,7 +251,7 @@ class Joueur{
             return false;
         }
 
-        $TDG = UserTDG::getInstance();
+        $TDG = JoueurTDG::getInstance();
         $NHP = password_hash($pw, PASSWORD_DEFAULT);
         $res = $TDG->update_password($NHP, $this->id);
         $this->passwordhash = $NHP;
@@ -257,16 +259,9 @@ class Joueur{
         return $res;
     }
 
-    public static function get_username_by_ID($id){
-        $TDG = UserTDG::getInstance();
-        $res = $TDG->get_by_id($id);
-        $TDG = null;
-        return $res["username"];
-    }
-
     public function display()
     {
         $id = $this->id;
-        include "userview.php";
+        include "userview.php";//pas le bon path jpense moi la
     }
 }

@@ -24,11 +24,15 @@
 
     $a_joueur = new Joueur();
 
-    if($a_joueur->login($email, $pw)){
+    if($a_joueur->login($email, $pw))
+    {
         login($a_joueur->get_id(), $a_joueur->get_courriel(), $a_joueur->get_alias());
+        echo("CA MARCHE");
         header("Location: ../user/billboard.php");
     }
-    else{
-        header("Location: ../user/login.php?errmsg=Invalid credentials");
+    else
+    {
+        var_dump("CA MARCHE PAS TABARNACK..");
+        //header("Location: ../user/login.php?errmsg=Invalid credentials");
     }
-    die();
+    //die();

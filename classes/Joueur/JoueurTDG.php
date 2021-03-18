@@ -2,82 +2,53 @@
 
 include_once __DIR__ . "/../../utils/connector.php";
 
-class UserTDG extends DBAO{
-
+class JoueurTDG extends DBAO
+{
     private $tableName;
     private static $_instance = null;
 
     private function __construct(){
         Parent::__construct();
-        $this->tableName = "users";
+        $this->tableName = "Joueurs";
     }
 
     public static function getInstance() {
 
         if(is_null(self::$_instance))
-            $_instance = new UserTDG();
+            $_instance = new JoueurTDG();
 
         return $_instance;
     }
 
-    //create table
-    public function createTable(){
+    public function get_all_info_by_id($id){
 
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "CREATE TABLE IF NOT EXISTS $tableName (id INTEGER(10) AUTO INCREMENT PRIMARY KEY,
-            email VARCHAR(25) UNIQUE NOT NULL,
-            username VARCHAR(25) NOT NULL,
-            passwordhash VARCHAR(250) NOT NULL),
-            isadmin BOOLEAN NOT NULL";
+            $query = "SELECT * FROM $tableName WHERE idJoueur=:idJoueur";
             $stmt = $conn->prepare($query);
+            $stmt->bindParam(':idJoueur', $id);
             $stmt->execute();
-            $resp = true;
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
         }
 
-        //error catch and msg display
         catch(PDOException $e)
         {
-            $resp = false;
+            echo "Error: " . $e->getMessage();
         }
-        //fermeture de connection PDO
         $conn = null;
-        return $resp;
+        return $result;
     }
-
-
-    //drop table
-    public function drop_table(){
-
-        try{
-            $conn = $this->connect();
-            $tableName = $this->tableName;
-            $query = "DROP TABLE $tableName";
-            $stmt = $conn->prepare($query);
-            $stmt->execute();
-            $resp = true;
-        }
-
-        //error catch and msg display
-        catch(PDOException $e)
-        {
-            $resp = false;
-        }
-        //fermeture de connection PDO
-        $conn = null;
-        return $resp;
-    }
-
 
     public function get_by_id($id){
 
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "SELECT id, email, username, isadmin FROM $tableName WHERE id=:id";
+            $query = "SELECT idJoueur FROM $tableName WHERE idJoueur=:idJoueur";//select * ?
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':idJoueur', $id);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result = $stmt->fetch();
@@ -87,20 +58,37 @@ class UserTDG extends DBAO{
         {
             echo "Error: " . $e->getMessage();
         }
-        //fermeture de connection PDO
         $conn = null;
         return $result;
     }
 
+    public function get_id_by_email($email){
+        try{
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT idJoueur FROM $tableName WHERE courriel =:courriel";//select * ?
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':courriel', $email);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
+        }
+        catch(PDOException $e)
+        {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
 
     public function get_by_email($email){
 
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "SELECT * FROM $tableName WHERE email=:email";
+            $query = "SELECT courriel FROM $tableName WHERE courriel =:courriel";//select * ?
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':courriel', $email);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result = $stmt->fetch();
@@ -110,20 +98,20 @@ class UserTDG extends DBAO{
         {
             echo "Error: " . $e->getMessage();
         }
-        //fermeture de connection PDO
         $conn = null;
         return $result;
     }
 
 
-    public function get_by_username($username){
+    public function get_by_alias($alias){
 
-        try{
+        try
+        {
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "SELECT * FROM $tableName WHERE username=:username";
+            $query = "SELECT alias FROM $tableName WHERE alias=:alias";
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':alias', $alias);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result = $stmt->fetchAll();
@@ -133,7 +121,6 @@ class UserTDG extends DBAO{
         {
             echo "Error: " . $e->getMessage();
         }
-        //fermeture de connection PDO
         $conn = null;
         return $result;
     }
@@ -144,7 +131,7 @@ class UserTDG extends DBAO{
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "SELECT id, email, username, isadmin FROM $tableName";
+            $query = "SELECT * FROM $tableName";
             $stmt = $conn->prepare($query);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -155,31 +142,32 @@ class UserTDG extends DBAO{
         {
             echo "Error: " . $e->getMessage();
         }
-        //fermeture de connection PDO
         $conn = null;
         return $result;
     }
 
 
-    public function add_user($email, $username, $password){
+    public function add_user($alias, $nom,$prénom,$motDepasse, $courriel,$montantInitial,$isAdmin){
 
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "INSERT INTO $tableName (email, username, passwordhash, isadmin) VALUES (:email, :username, :password, false)";
+            $query = "INSERT INTO $tableName VALUES (:alias, :nom,:prénom,:motDepasse, :courriel,:montantInitial,:isAdmin)";
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':alias', $alias);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':prénom', $prénom);
+            $stmt->bindParam(':motDepasse', $motDepasse);
+            $stmt->bindParam(':courriel', $courriel);
+            $stmt->bindParam(':montantInitial', $montantInitial);
+            $stmt->bindParam(':isAdmin',$isAdmin);
             $stmt->execute();
             $resp =  true;
         }
-
         catch(PDOException $e)
         {
             $resp =  false;
         }
-        //fermeture de connection PDO
         $conn = null;
         return $resp;
     }
@@ -235,5 +223,4 @@ class UserTDG extends DBAO{
         $conn = null;
         return $resp;
     }
-
 }

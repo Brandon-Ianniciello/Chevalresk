@@ -26,15 +26,17 @@
     $pw = sanitize($_POST['password']);
     $cpw = sanitize($_POST['confirmpassword']);
 
+    /*Regarde si l'email est valide*/
     if(!validate_email($email)){
         header("Location: ../user/register.php?errmsg=Invalid Email");
         die();
     }
 
-    if(!validate_password($pw)){
-        header("Location: ../user/register.php?errmsg=Invalid Password");
-        die();
-    }
+    /*Regarde si le mdp est valide*/
+    // if(!validate_password($pw)){
+    //     header("Location: ../user/register.php?errmsg=Invalid Password");
+    //     die();
+    // }
 
     $joueur = new Joueur();
 
@@ -42,6 +44,9 @@
     {
         header("Location: ../error.php?ErrorMSG=invalid email or password");
         die();
+    }
+    else{
+        echo("Joueur créer mon cul");
     }
     
     header("Location: ../user/login.php");

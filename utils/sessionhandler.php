@@ -6,7 +6,7 @@
   function login($uID, $uEmail, $uName){
     $_SESSION["userID"] = $uID ;
     $_SESSION["userEmail"] = $uEmail;
-    $_SESSION["userName"] = $uName;
+    $_SESSION["userName"] = $uName;//alias
     //Session timeout dans 15 minutes
     $_SESSION["timeOut"] = time() + (60 * 15);
     //renew_timeout

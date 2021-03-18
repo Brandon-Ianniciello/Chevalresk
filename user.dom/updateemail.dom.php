@@ -33,7 +33,7 @@ else{
     $newmail = $_SESSION["userEmail"];
 }
 
-$user = new User();
+$user = new Joueur();
 
 if(!$user->update_email_info($_SESSION["userEmail"], $newmail)){
     header("Location: ../error.php?ErrorMSG=invalid%20request");

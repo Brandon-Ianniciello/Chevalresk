@@ -29,7 +29,6 @@
         $reg4="/[!@#$%^&*(){}+=|\/?.]+/";
         $reg5 = "/[\s]/";
 
-        //toutes les conditions (si true == condition de fail)
         switch(true){
             case(!preg_match($reg1,$password)):
                 return false;
@@ -45,7 +44,6 @@
                 return false;
         }
 
-        //si toutes les conditions de fail ne sont pas satisfaite, retourn true (le password est valide)
         return true;
     }
 
@@ -58,7 +56,6 @@
                 die();
             }
         }
-
     }
 
     function sanitize($param){

@@ -33,7 +33,7 @@ else{
     $newusername = $_SESSION["userName"];
 }
 
-$user = new User();
+$user = new Joueur();
 $email = $_SESSION["userEmail"];
 
 if(!$user->update_username_info($_SESSION["userName"],$newusername, $email)){
