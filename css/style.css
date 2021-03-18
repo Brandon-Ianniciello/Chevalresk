@@ -1,0 +1,127 @@
+
+.logo{
+    color: white;
+    font-size: xx-large;
+}
+
+.loupe{
+    width: 10px;
+    height: 10px;
+}
+
+.fond-acueil{
+    color:black;
+    background-color: whitesmoke;
+}
+
+.tab_info{
+    position: relative;
+    left: 50px;
+    top: 100px;
+    border: whitesmoke 1px double;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.cellule{
+    font-size: medium;
+    text-align: center;
+}
+
+.clignote 
+{
+    animation: blinker 1s linear infinite;
+}
+  
+@keyframes blinker 
+{
+    50% 
+    {
+      opacity: 0;
+    }
+}
+
+#item{
+    text-align: center;color: whitesmoke;margin: 15px;
+}
+
+#entete{
+    border: 2px solid black;
+    background-color: black;
+}
+
+#itemTab{
+    border: 2px double black;
+    margin: 10px;
+}
+
+#cellule{
+    margin: 10px;
+}
+
+/*Diaporama*/
+.slide{
+    float: left;
+}
+
+.slides{
+    width:calc(1200px*3);animation: Effet 40s infinite;
+}
+
+.Diaporama{
+    height:500px;width:500px;overflow: hidden;
+}
+
+.slide:nth-child(1){
+    left:0%;
+    animation-delay: -1s;width: 500px;
+    background-image:url(../img/GOBLINS.jpg) ;
+    background-size:cover ;
+    background-position: center center;
+}
+
+.slide:nth-child(2){
+    animation-delay: 5s;width: 500px;
+    background-image:url(../img/ARMURE.jpg);
+    background-size:cover ;
+    background-position: center;
+}
+.slide:nth-child(3){
+    animation-delay: 11s;width: 500px;
+    background-image:url(../img/POTIONS.jpg);
+    background-size:cover;
+    background-position: center;
+}
+.slide:nth-child(4){
+    animation-delay: 17s;width: 500px;
+    background-image:url(../img/ÉPÉE.jpg);
+    background-size:cover;
+    background-position: center;
+}
+.slide:nth-child(5){
+    right: 0%;
+    animation-delay: 24s;width: 500px;
+    background-image:url(../img/GOBLINS.jpg);
+    background-size:cover;
+    background-position: center;
+}
+
+
+.slide p{
+    text-align: center;display: inline-block;margin-top:340px;color:white;font-size:100px ;width:100%;
+}
+
+@keyframes Effet{
+    0% {transform: translateX(0px);}
+    15% {transform: translateX(0px);}
+    30% {transform: translateX(-500px);}
+    45% {transform:translateX(-1000px) ;}
+    60% {transform: translateX(-1500px) ;}
+    75%{transform: translateX(-2000px) ;}
+    100%{transform: translateX(0px);}
+}
+.modele {
+    width: 350px;
+    height: 400px;
+    margin: 10px;
+}
