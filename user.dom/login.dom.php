@@ -25,7 +25,7 @@
     $a_joueur = new Joueur();
 
     if($a_joueur->login($email, $pw)){
-        login($a_joueur->get_id(), $a_joueur->get_courriel(), $a_joueur->get_username());
+        login($a_joueur->get_id(), $a_joueur->get_courriel(), $a_joueur->get_alias());
         header("Location: ../user/billboard.php");
     }
     else{

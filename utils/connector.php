@@ -1,32 +1,23 @@
 <?php
-
-    //Database Access Object
+    /*Connection aux données*/
     class DBAO {
 
-        //données nécessaire a la creation d'une connection
         private $servername;
         private $username;
         private $password;
         private $dbname;
         private $charset;
-
-        /*
-        Serveur Linux (pour heberger votre PHP)
-        Adresse du serveur: 167.114.152.54
-        nom user: chevaleresk5
-        mot de passe:btM5Ckg+
-        */
         
         protected function __construct(){
             $this->servername = "167.114.152.54";
-            $this->username = "chevaleresk5";
-            $this->password = "btM5Ckg+";
-            $this->dbname = "chevaleresk_DB";
+            $this->username = "chevalier5";
+            $this->password = "d8kv94h6";
+            $this->dbname = "dbchevalersk5";
             $this->charset = "utf8mb4";
         }
 
         protected function connect() {
-
+            
             try{
                 $dsn = "mysql:host=".$this->servername.";dbname=".$this->dbname.";charset=".$this->charset;
                 $pdo = new PDO($dsn , $this->username, $this->password);

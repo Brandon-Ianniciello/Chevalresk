@@ -17,7 +17,7 @@
     fonction qui valide si la Session est encore valide
   */
   function validate_session(){
-    $status;
+    $status = null;
     // l'usager n'est pas valide si cette variable
     // de session n'est pas definis
     if(!isset($_SESSION["userID"])){

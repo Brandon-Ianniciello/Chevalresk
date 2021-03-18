@@ -78,7 +78,8 @@ class Joueur{
         $this->mdpCrypte = $mdpCrypte;
     }
 
-    public function load_user($email){
+    public function load_user($email)
+    {
         $TDG = UserTDG::getInstance();
         $res = $TDG->get_by_email($email);
 
@@ -234,30 +235,25 @@ class Joueur{
    
     public function update_user_pw($email, $oldpw, $pw, $pwv){
 
-        //load user infos
         if(!$this->load_user($email))
         {
           return false;
         }
 
-        //check if passed param are valids
         if(empty($pw) || $pw != $pwv){
           return false;
         }
 
-        //verify password
         if(!password_verify($oldpw, $this->passwordhash))
         {
             return false;
         }
 
-        //create TDG and update to new hash
         $TDG = UserTDG::getInstance();
         $NHP = password_hash($pw, PASSWORD_DEFAULT);
         $res = $TDG->update_password($NHP, $this->id);
         $this->passwordhash = $NHP;
         $TDG = null;
-        //only return true if update_user_pw returned true
         return $res;
     }
 
@@ -270,9 +266,7 @@ class Joueur{
 
     public function display()
     {
-        //variable local
         $id = $this->id;
-
         include "userview.php";
     }
 }
