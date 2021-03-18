@@ -11,5 +11,4 @@
     $view_array = ["views/billboardview.php"];
 
     include "../html/masterpage.php";
-    
 ?>
