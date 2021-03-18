@@ -22,10 +22,10 @@
     $email = sanitize($_POST['email']);
     $pw = sanitize($_POST['password']);
 
-    $a_user = new User();
+    $a_joueur = new Joueur();
 
-    if($a_user->login($email, $pw)){
-        login($a_user->get_id(), $a_user->get_email(), $a_user->get_username());
+    if($a_joueur->login($email, $pw)){
+        login($a_joueur->get_id(), $a_joueur->get_courriel(), $a_joueur->get_username());
         header("Location: ../user/billboard.php");
     }
     else{
