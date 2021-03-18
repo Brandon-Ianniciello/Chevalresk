@@ -104,12 +104,7 @@ class Joueur{
         return true;
     }
 
-    /* $TDG = JoueurTDG::getInstance();
-        $res = $TDG->get_id_by_email($email);
-        var_dump("Dans le get_id",$res);
-        $TDG = null;
-        return $res["idJoueur"]; */
-    //Login Validation
+
     public function login($email, $pw){
         $TDG = JoueurTDG::getInstance();
         $id = $TDG->get_id_by_email($email);       

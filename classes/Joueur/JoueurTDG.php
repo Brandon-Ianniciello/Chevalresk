@@ -148,11 +148,11 @@ class JoueurTDG extends DBAO
 
 
     public function add_user($alias, $nom,$prénom,$motDepasse, $courriel,$montantInitial,$isAdmin){
-
         try{
             $conn = $this->connect();
             $tableName = $this->tableName;
-            $query = "INSERT INTO $tableName VALUES (:alias, :nom,:prénom,:motDepasse, :courriel,:montantInitial,:isAdmin)";
+            $query = "INSERT INTO $tableName (alias,nom,prénom,motDepasse,courriel,montantInitial,isAdmin)
+            VALUES (:alias, :nom,:prénom,:motDepasse, :courriel,:montantInitial,:isAdmin)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':alias', $alias);
             $stmt->bindParam(':nom', $nom);
@@ -171,7 +171,6 @@ class JoueurTDG extends DBAO
         $conn = null;
         return $resp;
     }
-
 
     /*
       update juste pour les infos non sensibles
