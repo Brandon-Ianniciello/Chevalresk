@@ -1,5 +1,5 @@
 <table>
-    <tr>
+    <tr class="container">
         <td>
             <!--Diaporama-->
             <div class="Diaporama">
@@ -31,7 +31,7 @@
             </div>
         </td>
 
-        <td style="position: relative;left:300px;bottom:100px;">
+        <td style="position: relative;left:300px;bottom:50px;">
             <form class="form-signin" method="POST" action="../user.dom/register.dom.php">
 
                 <h2 style="text-align:center;">Register</h2>
@@ -46,8 +46,18 @@
                 ?>
 
                 <div class="pt-3">
-                    <label for="username" class="sr-only">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                    <label for="alias" class="sr-only">Alias</label>
+                    <input type="text" id="alias" name="alias" class="form-control" placeholder="Alias" required autofocus>
+                </div>
+
+                <div class="pt-3">
+                    <label for="nom" class="sr-only">Nom</label>
+                    <input type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
+                </div>
+
+                <div class="pt-3">
+                    <label for="alias" class="sr-only">Prénom</label>
+                    <input type="text" id="prénom" name="prénom" class="form-control" placeholder="Prénom" required autofocus>
                 </div>
 
                 <div class="pt-3">

@@ -2,7 +2,7 @@
     session_start();
 
     require_once __DIR__ . "/../utils/utilbundle.php";
-    require_once __DIR__ . "/../classes/user/user.php";
+    require_once __DIR__ . "/../classes/Joueur/Joueur.php";
 
     //regarde si la session est valide
     $sess_status = validate_session();

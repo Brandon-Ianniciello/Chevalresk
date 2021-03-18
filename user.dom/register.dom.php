@@ -15,29 +15,29 @@
         die();
     }
 
-    $post_params = ["username", "email","password","confirmpassword"];
+    $post_params = ["alias","nom","prénom", "email","password","confirmpassword"];
     validate_param($_POST, $post_params);
 
-    $name = sanitize($_POST['username']);
+    $alias = sanitize($_POST["alias"]);
+    $prénom = sanitize($_POST['prénom']);
+    $nom = sanitize($_POST['nom']);
     $email = sanitize($_POST['email']);
     $pw = sanitize($_POST['password']);
     $cpw = sanitize($_POST['confirmpassword']);
 
-    // VALIDATE EMAIL
     if(!validate_email($email)){
         header("Location: ../user/register.php?errmsg=Invalid Email");
         die();
     }
 
-    // ADD PW VALIDATION (AT LEAST 1 NUMBER, 1 LETTER, 1 SPECIAL CHAR)
     if(!validate_password($pw)){
         header("Location: ../user/register.php?errmsg=Invalid Password");
         die();
     }
 
-    $a_user = new User();
+    $joueur = new Joueur();
 
-    if(!$a_user->register($email, $name, $pw, $cpw))
+    if(!$joueur->register($alias,$prénom,$nom,$email, $pw, $cpw))
     {
         header("Location: ../error.php?ErrorMSG=invalid email or password");
         die();
@@ -45,12 +45,4 @@
     
     header("Location: ../user/login.php");
     die();
-
 ?>
-    
-
-
-
-
-
-
