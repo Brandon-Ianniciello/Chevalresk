@@ -1,0 +1,170 @@
+<?php
+
+include_once __DIR__ . "/../../utils/connector.php";
+
+class EvaluationTDG extends DBAO{
+
+    private $tableName;
+    private static $_instance = null;
+
+    /*CONSTRUCTEUR*/
+    private function __construct()
+    {
+        Parent::__construct();
+        $this->tableName = "Évaluations";
+    }
+
+    /*INSTANCE*/
+    public static function getInstance()
+    {
+        if (is_null(self::$_instance))
+            $_instance = new EvaluationTDG();
+        return $_instance;
+    }
+
+    /*FONCTIONS*/
+    public function get_all_info_by_id($id)
+    {
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT * FROM $tableName WHERE idJoueur=:idJoueur";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':idJoueur', $id);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function get_all_info_by_idItem($idItem){
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT * FROM $tableName WHERE idItem=:idItem";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':idItem', $idItem);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function get_by_id($id)
+    {
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT idJoueur FROM $tableName WHERE idJoueur=:idJoueur";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':idJoueur', $id);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+    
+
+    public function get_by_matière($matière)
+    {
+
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT matièreArmure FROM $tableName WHERE matièreArmure=:matièreArmure";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':matièreArmure', $matière);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function get_by_poids($poids)
+    {
+
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT poidsArmure FROM $tableName WHERE poidsArmure=:poidsArmure";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':poidsArmure', $poids);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function get_by_taille($tailleArmure)
+    {
+
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT tailleArmure FROM $tableName WHERE tailleArmure=:tailleArmure";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':tailleArmure', $tailleArmure);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+    
+    public function get_all_evaluations(){
+        try {
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "SELECT * FROM $tableName";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+        return $result;
+    }
+
+    public function add_evaluation($NbrÉtoile,$Commentaire,$idJoueur,$idItem){
+        try{
+            $conn = $this->connect();
+            $tableName = $this->tableName;
+            $query = "INSERT INTO $tableName (NbrÉtoile,Commentaire,idJoueur,idItem) 
+            VALUES('$NbrÉtoile','$Commentaire',$idJoueur,$idItem)";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            $resp = true;
+        }
+        catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            $resp = false;
+        }
+        $conn = null;
+        return $resp;
+    }
+}
